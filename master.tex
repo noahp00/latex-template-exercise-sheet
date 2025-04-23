@@ -1,0 +1,137 @@
+\documentclass[headsepline, usegeometry]{scrreprt}
+
+\input{preamble.tex}
+
+% Header
+\ohead{Noah Pferdekamp}
+\ihead{Einführung in die Computergrafik}
+\chead{Blatt 2}
+\cfoot{}
+
+\begin{document}
+
+\begin{exercise}
+    Es seien zwei Punkte \(p_{0},p_{1} \in \R^{3}\) mit \(\norm{p_{0}}=\norm{p_{1}}\) gegeben.
+    Gesucht sind die Parameter einer Rotation, welchen den ersten auf den zweiten Punkt rotiert.
+    \begin{enumerate}[label = (\alph*)]
+        \item Gib eine Formel an, um den Rotationswinkel \(\alpha\) zwischen \(p_{0}\) und \(p_{1}\) zu bestimmen.\label{ex:1a}
+        \item Gib eine Formel an, um die Rotationsachse \(v\) mit \(\norm{v}=1\) zu bestimmen.\label{ex:1b}
+    \end{enumerate}  
+\end{exercise}
+\begin{solution}[\ref{ex:1a}]
+    Wir wissen, dass 
+    \begin{equation*}
+        \langle p_{0},p_{1} \rangle = \norm{p_{0}}\norm{p_{1}}\cos(\alpha).
+    \end{equation*}
+    Damit gilt
+    \begin{equation*}
+        \alpha = \arccos\left(\frac{\langle p_{0},p_{1} \rangle}{\norm{p_{0}}\norm{p_{1}}}\right) = \arccos\left(\frac{\langle p_{0},p_{1} \rangle}{\norm{p_{0}}^{2}}\right).
+    \end{equation*}
+\end{solution}
+\begin{solution}[\ref{ex:1b}]
+    Um \(p_{0}\) auf \(p_{1}\) zu rotieren, benötigen wir eine Rotationsachse, die orthogonal zu den beiden Punkten ist.
+    Dies ist gegeben durch
+    \begin{equation*}
+        v = \frac{p_{0} \times p_{1}}{\norm{p_{0} \times p_{1}}}.
+    \end{equation*}  
+\end{solution}
+\begin{exercise}   
+    Es sei ein Punkt \(p \in \R^{3}\) in homogenen Koordinaten
+    \( 
+        {\big[
+        \begin{matrix}
+            x & y & z & 1
+        \end{matrix}
+        \big]}^{T}
+    \)
+    gegeben.
+    \begin{enumerate}[label = (\alph*)]
+        \item Leite eine Matrix \(M_{1}\) her, welche den Punkt \(p\) zuerst um einen Winkel \(\alpha\) um die Achse 
+            \(
+            \big[
+            \begin{matrix}
+                0 & 0 & 1
+            \end{matrix}
+            \big]
+            ^{T}
+            \)  
+            dreht und ihn dann um einen Vektor
+            \(
+            \big[
+            \begin{matrix}
+                t_{1} & t_{2} & t_{3}
+            \end{matrix}
+            \big]
+            ^{T}
+            \) 
+            verschiebt.\label{ex:2a}
+        \item Leite eine Matrix \(M_{2}\) her, welche den Punkt \(p\) zuerst um den Vektor 
+            \(
+            \big[
+            \begin{matrix}
+                t_{1} & t_{2} & t_{3}
+            \end{matrix}
+            \big]
+            ^{T}
+            \) 
+            verschiebt und ihn dann um einen Winkel \(\alpha\) um die Achse
+            \(
+            \big[
+            \begin{matrix}
+                0 & 0 & 1
+            \end{matrix}
+            \big]
+            ^{T}
+            \) 
+            dreht.\label{ex:2b}
+        \item Beschreibe, in welcher Weise die Reihenfolge der obigen Operationen die jeweilige Transformationsmatrix beeinflusst.\label{ex:2c}
+    \end{enumerate}
+\end{exercise}
+\begin{solution}[\ref{ex:2a}]\label{sol:2a}
+    Wir erhalten \(M_{1}\) durch das Produkt \(M_{\operatorname{trans}}\cdot M_{\operatorname{rot}}\) mit
+    \begin{equation*}
+        \delimiterfactor=1000
+        M_{\text{trans}} = 
+        \begin{bNiceArray}{ccc|c}[margin]
+            \Block{3-3}{\symbfit{I}_{3}} & & & t_{1} \\
+            & & & t_{2} \\
+            & & & t_{3} \\
+            \hline % chktex 44
+            0 & 0 & 0 & 1  
+        \end{bNiceArray}, \quad
+        M_{\text{rot}}
+        \begin{bmatrix}
+            \cos\alpha & -\sin\alpha & 0 & 0 \\
+            \sin\alpha & \hphantom{-}\cos\alpha & 0 & 0 \\
+            0 & 0 & 1 & 0 \\
+            0 & 0 & 0 & 1 
+        \end{bmatrix}.
+    \end{equation*}
+    Damit ist
+    \begin{equation*}
+        M_{1} = 
+        \begin{bmatrix}
+            \cos\alpha & -\sin\alpha & 0 & t_{1} \\
+            \sin\alpha & \hphantom{-}\cos\alpha & 0 & t_{2} \\
+            0 & 0 & 1 & t_{3} \\
+            0 & 0 & 0 & 1 
+        \end{bmatrix}.
+    \end{equation*}
+\end{solution}
+\begin{solution}[\ref{ex:2b}]
+    Analog zur vorherigen Lösung erhalten wir 
+    \begin{equation*}
+        M_{2} =
+        \begin{bmatrix}
+            \cos\alpha & -\sin\alpha & 0 & t_{1}\cos\alpha - t_{2}\sin\alpha \\
+            \sin\alpha & \hphantom{-}\cos\alpha & 0 & t_{1}\sin\alpha + t_{2}\cos\alpha \\
+            0 & 0 & 1 & t_{3} \\
+            0 & 0 & 0 & 1 
+        \end{bmatrix}.
+    \end{equation*}
+\end{solution}
+\begin{solution}[\ref{ex:2c}]
+    Bei~\ref{ex:2a} erfolgt die Translation unabhängig von der Rotation, wie auch an der letzten Spalte von \(M_{1}\) zu sehen ist.
+    Dies ist bei~\ref{ex:2b} nicht mehr der Fall, da die Translation mitrotiert wird. 
+\end{solution}
+\end{document}

@@ -1,0 +1,210 @@
+% !! USE LuaLaTeX FOR COMPILING WITH CURRENT PREAMBLE !!
+
+% LTeX: enabled=false
+
+% Cleaner text spacing
+\usepackage[final]{microtype}
+% Math-Stuff
+\usepackage{mathtools}
+\usepackage{keytheorems}
+\usepackage{nicematrix}
+% Nice code
+\usepackage[newfloat]{minted}
+% Plots
+\usepackage{pgfplots}
+% Font
+\usepackage{fontspec}
+\usepackage[warnings-off={mathtools-colon,mathtools-overbracket}]{unicode-math}
+\setmainfont{XCharter}
+\setmathfont{XCharter Math}
+\setmathfont[range=\mathcal]{STIX Two Math}
+% German
+\usepackage[ngerman]{babel}
+% Spacing
+\linespread{1.04}
+\usepackage{setspace}
+\usepackage[a4paper, top=1.6cm, bottom=2.0cm, left=2.45cm, right=2.45cm]{geometry}
+% New type area calculation with font and linespread
+%\KOMAoptions{DIV=last}
+% Header
+\usepackage{scrlayer-scrpage}
+% Colors and graphics
+\usepackage[dvipsnames]{xcolor}
+\usepackage{graphicx}
+% Nice tables
+\usepackage{longtable, booktabs}
+% Lists
+\usepackage[inline]{enumitem}
+% Quotes
+\usepackage[autostyle=true]{csquotes}
+% Nice numbers and units
+\usepackage{siunitx}
+% References
+\usepackage[hidelinks,linktocpage=true]{hyperref}
+\hypersetup{
+  linkcolor  = RoyalBlue,
+  citecolor  = Green,
+  urlcolor   = RoyalBlue,
+  colorlinks = true,
+}
+\usepackage[all]{hypcap}
+\usepackage{zref-clever}
+\usepackage{bookmark}
+
+% Macros
+\DeclareSIUnit\dollar{\$}
+\newcommand{\Img}{\operatorname{Im}}
+\newcommand{\df}{\operatorname{df}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\rg}{\operatorname{rg}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\prim}{\mathbb{P}}
+\newcommand{\pot}{\mathcal{P}}
+\newcommand{\Llr}{\Longleftrightarrow}
+\newcommand{\Lr}{\Longrightarrow}
+\newcommand{\Ll}{\Longleftarrow}
+\newcommand{\Lra}{\Leftrightarrow}
+\newcommand{\Ra}{\Rightarrow}
+\newcommand{\La}{\Leftarrow}
+\renewcommand{\vec}[1]{\symbfit{#1}}
+\newcommand{\mat}[1]{\symbfit{#1}}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}
+
+% Solution
+\newkeytheoremstyle{deristyle}
+{
+headfont=\normalfont\itshape,
+notebraces={}{},
+headpunct={.},
+bodyfont=\normalfont,
+headformat=\NAME\NOTE,
+spaceabove = 0pt,
+qed = \(\diamond\),
+}
+\newkeytheorem{solution}[
+Refname={Lösung, Lösungen},
+style=deristyle,
+name=Lösung
+]
+
+% Proof
+\newkeytheoremstyle{proofstyle}
+{
+headfont=\normalfont\itshape,
+notebraces={}{},
+headpunct={.},
+bodyfont=\normalfont,
+headformat=\NAME\NOTE,
+spaceabove = 0pt,
+qed
+}
+\renewkeytheorem{proof}[
+Refname={Beweis,Beweise},
+style=proofstyle,
+name=Beweis
+]
+
+% Exercise
+\definecolor{excolor}{RGB}{200, 205, 207}
+\newkeytheoremstyle{repstyle}
+{
+headfont=\normalfont\scshape\bfseries,
+notefont=\normalfont\bfseries,
+notebraces={--- }{},  
+headpunct={.},
+bodyfont=\normalfont,
+headformat=\NAME~\NUMBER\NOTE,
+break,
+tcolorbox-no-titlebar={
+    enhanced,
+    breakable,
+    sharp corners,
+    colback=excolor!20,
+    boxrule=0pt,
+    leftrule=2pt,       
+    colframe=excolor,
+    left=8pt,
+    right=8pt,
+  }
+}
+\newkeytheorem{exercise}[
+  Refname={Aufgabe, Aufgaben},
+  style=repstyle,
+  name=Aufgabe,
+]
+
+
+% Code
+\setminted{     
+    bgcolor = yellow!15,     
+    linenos=true,              
+    numbersep=5pt,              
+    fontsize=\small,            
+    breaklines=true,            
+    frame=single,                         
+    escapeinside=||, 
+    framesep=0pt,
+    autogobble=true, 
+    style=xcode,             
+}
+
+% Output (from code)
+\newminted{output}{
+    bgcolor = gray!15, 
+    linenos=false,                                
+    fontsize=\small,            
+    breaklines=true,            
+    frame=single,                         
+    escapeinside=||, 
+    framesep=0pt,            
+    autogobble=true,
+    style=bw,   
+}
+
+% Long code
+\newenvironment{longlisting}{\captionsetup{type=listing}}{}
+
+% Less vertical space after code
+\AfterEndEnvironment{minted}{\vspace{-4pt}}
+
+% Caption no colon
+\renewcommand*{\captionformat}{\ }
+
+% New caption for figures (only for german)
+\renewcaptionname{ngerman}{\figurename}{Abb.}
+\renewcommand*{\figureformat}{\bfseries\figurename~\thefigure\autodot}
+
+% New caption for tables (only for german)
+\renewcaptionname{ngerman}{\tablename}{Tab.}
+\renewcommand*{\tableformat}{\bfseries\tablename~\thetable\autodot}
+
+% New caption for code
+\SetupFloatingEnvironment{listing}{name=Code,autorefname=Code}
+%\captionsetup[listing]{skip=-2pt,labelfont=bf}
+\zcRefTypeSetup{listing}{
+Name-sg = Code,
+Name-pl = Codes,
+}
+
+% Allow page breaks in equations
+\allowdisplaybreaks[3]
+
+% Allow page breaks in boxes
+\tcbuselibrary{breakable}
+\tcbuselibrary{skins}
+
+% Version from pgfplot
+\pgfplotsset{compat=1.18}
+
+% Externalization for pgfplots for better compiling time
+\usepgfplotslibrary{external}
+\tikzset{external/system call={lualatex \tikzexternalcheckshellescape -halt-on-error -interaction=batchmode -jobname "\image" "\texsource"}} % chktex 18
+\tikzexternalize
+
+% Otherwise error with tikz-externalize
+\tcbset{shield externalize}
